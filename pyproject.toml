@@ -1,0 +1,7 @@
+[project]
+name = "notification-bot"
+version = "0.1.0"
+description = "Телеграмм бот для уведомлений"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
