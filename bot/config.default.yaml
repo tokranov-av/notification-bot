@@ -1,0 +1,14 @@
+notification-bot:
+  logging:
+    log_level_name: INFO
+
+  bot:
+    token: 123456789abcdefg
+    admin_id: 123456789
+
+  postgres:
+    host: localhost
+    db: postgres
+    user: postgres
+    password: ''
+    port: 5432
