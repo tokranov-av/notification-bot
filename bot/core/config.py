@@ -8,7 +8,9 @@ from zoneinfo import ZoneInfo
 from pydantic import BaseModel
 from pydantic_settings import (
     BaseSettings,
+    PydanticBaseSettingsSource,
     SettingsConfigDict,
+    YamlConfigSettingsSource,
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -59,10 +61,43 @@ class TelegramBotConfig(BaseModel):
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         case_sensitive=False,
-        env_file=BASE_DIR / ".env",
-        env_nested_delimiter="__",
-        env_prefix="NOTIFICATION_BOT__",
+        yaml_file=(
+            BASE_DIR / "config.default.yaml",
+            BASE_DIR / "config.custom.yaml",
+        ),
+        yaml_config_section="notification-bot",
     )
+
+    @classmethod
+    def settings_customise_sources(
+        cls,
+        settings_cls: type[BaseSettings],
+        init_settings: PydanticBaseSettingsSource,
+        env_settings: PydanticBaseSettingsSource,
+        dotenv_settings: PydanticBaseSettingsSource,
+        file_secret_settings: PydanticBaseSettingsSource,
+    ) -> tuple[PydanticBaseSettingsSource, ...]:
+        """
+        Define the sources and their order for loading the settings values.
+
+        Args:
+            settings_cls: The Settings class.
+            init_settings: The `InitSettingsSource` instance.
+            env_settings: The `EnvSettingsSource` instance.
+            dotenv_settings: The `DotEnvSettingsSource` instance.
+            file_secret_settings: The `SecretsSettingsSource` instance.
+
+        Returns:
+            A tuple containing the sources
+            and their order for loading the settings values.
+        """
+        return (
+            init_settings,
+            env_settings,
+            dotenv_settings,
+            file_secret_settings,
+            YamlConfigSettingsSource(settings_cls),
+        )
 
     bot: TelegramBotConfig = TelegramBotConfig()
     logging: LoggingConfig = LoggingConfig()
