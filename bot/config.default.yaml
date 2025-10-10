@@ -10,5 +10,5 @@ notification-bot:
     host: localhost
     db: postgres
     user: postgres
-    password: ''
+    password: ""
     port: 5432
