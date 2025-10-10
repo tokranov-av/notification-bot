@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:16.7
-    container_name: meeting_db
+    container_name: notification_bot_db
     env_file:
       - ./bot/.env
     volumes:
