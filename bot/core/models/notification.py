@@ -1,25 +1,34 @@
 from datetime import time
+from typing import TYPE_CHECKING
 
 from sqlalchemy import (
-    BigInteger,
     Boolean,
+    ForeignKey,
     String,
     Time,
 )
 from sqlalchemy.orm import (
     Mapped,
     mapped_column,
+    relationship,
 )
 
 from .base import Base
 
+if TYPE_CHECKING:
+    from .user import User
+
 
 class Notification(Base):
-    __tablename__ = "notifications"
+    """Модель уведомлений."""
 
-    id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(BigInteger, index=True)
     message: Mapped[str] = mapped_column(String(1000))
     notification_time: Mapped[time] = mapped_column(Time)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     job_id: Mapped[str | None] = mapped_column(String(255), unique=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+
+    user: Mapped["User"] = relationship(
+        "User",
+        back_populates="notifications",
+    )
