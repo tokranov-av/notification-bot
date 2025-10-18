@@ -1,4 +1,7 @@
-__all__ = ("settings",)
+__all__ = (
+    "TIME_ZONE",
+    "settings",
+)
 
 import logging
 from pathlib import Path

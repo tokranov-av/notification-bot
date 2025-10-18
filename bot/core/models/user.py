@@ -11,12 +11,14 @@ from sqlalchemy.orm import (
 )
 
 from .base import Base
+from .mixins.created_at import CreatedAtMixin
+from .mixins.int_id_pk import IntIdPkMixin
 
 if TYPE_CHECKING:
     from .notification import Notification
 
 
-class User(Base):
+class User(IntIdPkMixin, CreatedAtMixin, Base):
     """Модель пользователей."""
 
     telegram_id: Mapped[int] = mapped_column(BigInteger, unique=True, index=True)

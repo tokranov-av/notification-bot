@@ -14,12 +14,14 @@ from sqlalchemy.orm import (
 )
 
 from .base import Base
+from .mixins.created_at import CreatedAtMixin
+from .mixins.int_id_pk import IntIdPkMixin
 
 if TYPE_CHECKING:
     from .user import User
 
 
-class Notification(Base):
+class Notification(IntIdPkMixin, CreatedAtMixin, Base):
     """Модель уведомлений."""
 
     message: Mapped[str] = mapped_column(String(1000))
