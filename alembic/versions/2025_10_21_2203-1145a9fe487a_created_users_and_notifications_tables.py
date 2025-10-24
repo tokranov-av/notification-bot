@@ -1,8 +1,8 @@
 """Created users and notifications tables
 
-Revision ID: 9713c8b2d2a0
+Revision ID: 1145a9fe487a
 Revises:
-Create Date: 2025-10-18 21:29:39.896146
+Create Date: 2025-10-21 22:03:20.785464
 
 """
 
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision: str = "9713c8b2d2a0"
+revision: str = "1145a9fe487a"
 down_revision: str | Sequence[str] | None = None
 branch_labels: str | Sequence[str] | None = None
 depends_on: str | Sequence[str] | None = None

@@ -14,14 +14,12 @@ from sqlalchemy.orm import (
 )
 
 from .base import Base
-from .mixins.created_at import CreatedAtMixin
-from .mixins.int_id_pk import IntIdPkMixin
 
 if TYPE_CHECKING:
     from .user import User
 
 
-class Notification(IntIdPkMixin, CreatedAtMixin, Base):
+class Notification(Base):
     """Модель уведомлений."""
 
     message: Mapped[str] = mapped_column(String(1000))
@@ -34,3 +32,9 @@ class Notification(IntIdPkMixin, CreatedAtMixin, Base):
         "User",
         back_populates="notifications",
     )
+
+    def __str__(self) -> str:
+        return f"{self.__class__.__name__}(id={self.user_id}, username={self.notification_time!r})"
+
+    def __repr__(self) -> str:
+        return str(self)

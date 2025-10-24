@@ -4,11 +4,10 @@ import logging
 from aiogram import (
     Bot,
     Dispatcher,
-    types,
 )
-from aiogram.filters import Command
 
-from bot.core import settings
+from bot.config import settings
+from bot.handlers import router
 
 logging.basicConfig(
     level=settings.logging.log_level,
@@ -19,11 +18,7 @@ logging.basicConfig(
 
 bot = Bot(token=settings.bot.token)
 dp = Dispatcher()
-
-
-@dp.message(Command("start"))
-async def cmd_start(message: types.Message) -> None:
-    await message.answer("Hello!")
+dp.include_router(router)
 
 
 async def main() -> None:

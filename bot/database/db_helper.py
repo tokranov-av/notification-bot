@@ -1,5 +1,4 @@
 import logging
-from collections.abc import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
@@ -8,7 +7,7 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
-from bot.core.config import settings
+from bot.config import settings
 
 log = logging.getLogger(__name__)
 
@@ -39,10 +38,6 @@ class DatabaseHelper:
     async def dispose(self) -> None:
         await self.engine.dispose()
         log.info("Database engine disposed")
-
-    async def session_getter(self) -> AsyncGenerator[AsyncSession]:
-        async with self.session_factory() as session:
-            yield session
 
 
 db_helper = DatabaseHelper(
