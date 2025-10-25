@@ -27,6 +27,7 @@ class Notification(Base):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     job_id: Mapped[str | None] = mapped_column(String(255), unique=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    notification_type: Mapped[str] = mapped_column(String(10))
 
     user: Mapped["User"] = relationship(
         "User",
