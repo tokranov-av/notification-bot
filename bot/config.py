@@ -1,12 +1,8 @@
-__all__ = (
-    "TIME_ZONE",
-    "settings",
-)
+__all__ = ("settings",)
 
 import logging
 from pathlib import Path
 from typing import Literal
-from zoneinfo import ZoneInfo
 
 from pydantic import BaseModel
 from pydantic_settings import (
@@ -17,8 +13,6 @@ from pydantic_settings import (
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-TIME_ZONE = ZoneInfo("Europe/Moscow")
 
 LOG_FORMAT: str = (
     "[%(asctime)s.%(msecs)03d] %(module)10s:%(lineno)-3d %(levelname)-7s - %(message)s"

@@ -1,15 +1,11 @@
 __all__ = (
     "NotificationCreate",
     "NotificationRead",
-    "UserCreate",
-    "UserRead",
+    "NotificationUpdatePartial",
 )
 
 from .notification import (
     NotificationCreate,
     NotificationRead,
-)
-from .user import (
-    UserCreate,
-    UserRead,
+    NotificationUpdatePartial,
 )

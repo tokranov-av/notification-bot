@@ -2,12 +2,13 @@ import asyncio
 import logging
 
 from aiogram import (
-    Bot,
     Dispatcher,
 )
 
 from bot.config import settings
+from bot.core import bot
 from bot.handlers import router
+from bot.scheduler import scheduler_loop
 
 logging.basicConfig(
     level=settings.logging.log_level,
@@ -15,13 +16,12 @@ logging.basicConfig(
     datefmt=settings.logging.date_format,
 )
 
-
-bot = Bot(token=settings.bot.token)
 dp = Dispatcher()
 dp.include_router(router)
 
 
 async def main() -> None:
+    asyncio.create_task(scheduler_loop())  # noqa: RUF006
     await dp.start_polling(bot)
 
 

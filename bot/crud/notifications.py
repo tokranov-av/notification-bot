@@ -1,22 +1,22 @@
-from datetime import time
+from collections.abc import Sequence
+from datetime import datetime
 
-from sqlalchemy import select, update
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from bot.models import Notification
-from bot.schemas import NotificationCreate
+from bot.core.models import Notification
+from bot.core.schemas import NotificationCreate, NotificationUpdatePartial
 
 
 async def get_notification(
     session: AsyncSession,
-    user_id: int,
-    notification_time: time,
+    telegram_id: int,
+    notification_time: datetime,
 ) -> Notification | None:
     stmt = (
         select(Notification)
-        .where(Notification.user_id == user_id)
-        .where(Notification.notification_time == notification_time)
-        .where(Notification.is_active)
+        .where(Notification.telegram_id == telegram_id)
+        .where(Notification.notif_time == notification_time)
         .order_by(Notification.id)
     )
     result = await session.scalars(stmt)
@@ -35,19 +35,23 @@ async def create_notification(
     return notification
 
 
-async def update_job_id(
+async def update_notification_partial(
     session: AsyncSession,
-    notification_id: int,
-    job_id: str,
-) -> Notification:
-    """Обновление job_id уведомления"""
-    stmt = (
-        update(Notification)
-        .where(Notification.id == notification_id)
-        .values(job_id=job_id)
-        .returning(Notification)
-    )
-    result = await session.execute(stmt)
+    notification: Notification,
+    notification_update: NotificationUpdatePartial,
+) -> Notification | None:
+    for field_name, value in notification_update.model_dump(exclude_unset=True).items():
+        setattr(notification, field_name, value)
     await session.commit()
 
-    return result.scalar_one()
+    return notification
+
+
+async def get_active_notifications(
+    session: AsyncSession,
+) -> Sequence[Notification]:
+    result = await session.execute(
+        select(Notification).where(Notification.is_active),
+    )
+
+    return result.scalars().all()

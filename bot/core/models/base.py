@@ -10,13 +10,12 @@ from sqlalchemy.orm import (
 )
 
 from bot.config import (
-    TIME_ZONE,
     settings,
 )
 
 
 def get_current_dt() -> datetime:
-    dt = datetime.now(tz=TIME_ZONE)
+    dt = datetime.now()
     return dt.replace(microsecond=0, tzinfo=None)
 
 
