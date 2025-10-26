@@ -33,7 +33,7 @@ plugins = [
 [tool.ruff]
 required-version = ">=0.12.1"
 src = [
-    "film-catalog",
+    "bot",
 ]
 
 # Exclude a variety of commonly ignored directories.
